@@ -561,7 +561,7 @@ public class BleClient extends BaseBle {
                     if (mtuSize == 0) {
                         mtuSize = 512;
                     }
-                    boolean isSuccess = bluetoothGatt.requestMtu(mtuSize);
+                    boolean isSuccess = bluetoothGatt.requestMtu(mtuSize + 3);
                     callBack.setMtuIsSuccess(isSuccess);
                     bluetoothGatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
                 } else if (newState == BluetoothProfile.STATE_CONNECTING) {
