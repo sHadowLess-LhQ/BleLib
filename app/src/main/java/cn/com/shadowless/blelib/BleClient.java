@@ -12,6 +12,7 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -440,14 +441,14 @@ public class BleClient extends BaseBle {
      * Start scan.
      */
     public void startScan() {
-        if (!getBluetoothIsOpen() || !getLocationIsOpen()) {
-            Toast.makeText(context, "请打开蓝牙和定位", Toast.LENGTH_LONG).show();
-            return;
-        }
         if (scanCallback == null && leScanCallback == null && bluetoothGattCallback == null) {
             if (callBack == null) {
                 throw new IllegalArgumentException("请传入StatueCallBack或自实现ScanCallback或LeScanCallback和BluetoothGattCallback");
             }
+        }
+        if (!getBluetoothIsOpen() || !getLocationIsOpen()) {
+            Toast.makeText(context, "请打开蓝牙和定位", Toast.LENGTH_LONG).show();
+            return;
         }
         if (bluetoothAdapter == null) {
             bluetoothAdapter = getBluetoothManager().getAdapter();

@@ -466,14 +466,14 @@ public class BleServer extends BaseBle {
      * Start advertising.
      */
     public void starServer() {
-        if (!getBluetoothIsOpen() || !getLocationIsOpen()) {
-            Toast.makeText(context, "请打开蓝牙和定位", Toast.LENGTH_LONG).show();
-            return;
-        }
         if (advertiseCallback == null && gattServerCallback == null) {
             if (callBack == null) {
                 throw new IllegalArgumentException("请传入StatueCallBack或自实现AdvertiseCallback和BluetoothGattServerCallback");
             }
+        }
+        if (!getBluetoothIsOpen() || !getLocationIsOpen()) {
+            Toast.makeText(context, "请打开蓝牙和定位", Toast.LENGTH_LONG).show();
+            return;
         }
         BluetoothAdapter bluetoothAdapter = getBluetoothManager().getAdapter();
         if (settings == null) {

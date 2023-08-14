@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.widget.Toast;
 
@@ -59,6 +60,10 @@ public abstract class BaseBle implements LifecycleEventObserver, BlueToothStatue
      * @param context the context
      */
     public BaseBle(Context context) {
+        boolean hasBleFeature = context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
+        if (!hasBleFeature) {
+            throw new RuntimeException("该设备不支持蓝牙功能");
+        }
         this.context = context;
         this.bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
         this.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
