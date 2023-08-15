@@ -593,6 +593,8 @@ public class BleServer extends BaseBle {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     callBack.connectSuccess(device, status, newState);
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                    stopServer();
+                    starServer();
                     callBack.connectFail(device, status, newState);
                 } else if (newState == BluetoothProfile.STATE_CONNECTING) {
                     callBack.connecting(device, status, newState);
