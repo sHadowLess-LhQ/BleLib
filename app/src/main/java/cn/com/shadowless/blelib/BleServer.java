@@ -500,6 +500,9 @@ public class BleServer extends BaseBle {
             bluetoothGattServer.cancelConnection(device);
         }
         bluetoothGattServer.close();
+        bluetoothLeAdvertiser = null;
+        advertiseCallback = null;
+        bluetoothGattServer = null;
     }
 
     /**

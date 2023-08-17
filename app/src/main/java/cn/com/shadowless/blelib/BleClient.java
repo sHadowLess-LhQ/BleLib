@@ -474,6 +474,11 @@ public class BleClient extends BaseBle {
      */
     public void stopConnect() {
         bluetoothGatt.disconnect();
+        bluetoothAdapter = null;
+        bluetoothGatt = null;
+        scanCallback = null;
+        leScanCallback = null;
+        bluetoothGattCallback = null;
     }
 
     /**
@@ -509,7 +514,6 @@ public class BleClient extends BaseBle {
             characteristic.setValue(data);
             characteristic.setWriteType(writeType);
             bluetoothGatt.writeCharacteristic(characteristic);
-            Log.e("TAG", "sendData 发送数据成功");
         }
     }
 
