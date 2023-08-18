@@ -62,7 +62,7 @@ public abstract class BaseBle implements LifecycleEventObserver, BlueToothStatue
     public BaseBle(Context context) {
         boolean hasBleFeature = context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
         if (!hasBleFeature) {
-            throw new RuntimeException("该设备不支持蓝牙功能");
+            throw new RuntimeException("该设备不支持低功耗蓝牙功能");
         }
         this.context = context;
         this.bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -112,7 +112,7 @@ public abstract class BaseBle implements LifecycleEventObserver, BlueToothStatue
      *
      * @return the bluetooth manager
      */
-    protected BluetoothManager getBluetoothManager() {
+    public BluetoothManager getBluetoothManager() {
         return bluetoothManager;
     }
 
@@ -121,7 +121,7 @@ public abstract class BaseBle implements LifecycleEventObserver, BlueToothStatue
      *
      * @return the location manager
      */
-    protected LocationManager getLocationManager() {
+    public LocationManager getLocationManager() {
         return locationManager;
     }
 
@@ -130,7 +130,7 @@ public abstract class BaseBle implements LifecycleEventObserver, BlueToothStatue
      *
      * @return the bluetooth is open
      */
-    protected boolean getBluetoothIsOpen() {
+    public boolean getBluetoothIsOpen() {
         return getBluetoothManager().getAdapter().isEnabled();
     }
 
@@ -139,7 +139,7 @@ public abstract class BaseBle implements LifecycleEventObserver, BlueToothStatue
      *
      * @return the location is open
      */
-    protected boolean getLocationIsOpen() {
+    public boolean getLocationIsOpen() {
         return getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseBle implements LifecycleEventObserver, BlueToothStatue
      *
      * @return the list
      */
-    protected List<BluetoothDevice> getConnectedDevice() {
+    public List<BluetoothDevice> getConnectedDevice() {
         return getBluetoothManager().getConnectedDevices(BluetoothProfile.GATT);
     }
 
