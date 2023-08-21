@@ -24,7 +24,7 @@ import java.util.UUID;
 
 
 /**
- * The type Ble client.
+ * Ble客户端
  *
  * @author sHadowLess
  */
@@ -36,72 +36,67 @@ public class BleClient extends BaseBle {
     private final String tag = BleClient.class.getSimpleName();
 
     /**
-     * The Context.
+     * 上下文
      */
     private final Context context;
 
     /**
-     * The Server id.
+     * 服务端id
      */
     private final UUID serverId;
 
     /**
-     * The Write id.
+     * 写入通道id
      */
     private final UUID writeId;
 
     /**
-     * The Read id.
+     * 读取通道id
      */
     private final UUID readId;
 
     /**
-     * The Server name.
+     * 服务端名称
      */
     private final String serverName;
 
     /**
-     * The Mtu size.
+     * 最大每包大小
      */
     private int mtuSize;
 
     /**
-     * The Bluetooth adapter.
+     * 蓝牙适配器
      */
     private BluetoothAdapter bluetoothAdapter;
 
     /**
-     * The Bluetooth gatt.
+     * 客户端协议
      */
     private BluetoothGatt bluetoothGatt;
 
     /**
-     * The Scanner.
+     * 蓝牙扫描
      */
     private BluetoothLeScanner scanner;
 
     /**
-     * The Scan callback.
+     * 扫描回调
      */
     private ScanCallback scanCallback;
 
     /**
-     * The Le scan callback.
-     */
-    private BluetoothAdapter.LeScanCallback leScanCallback;
-
-    /**
-     * The Bluetooth gatt callback.
+     * 协议回调
      */
     private BluetoothGattCallback bluetoothGattCallback;
 
     /**
-     * The Call back.
+     * 状态回调
      */
     private final StatueCallBack callBack;
 
     /**
-     * Instantiates a new Ble client.
+     * 构造
      *
      * @param context               the context
      * @param serverId              the server id
@@ -110,12 +105,11 @@ public class BleClient extends BaseBle {
      * @param serverName            the server name
      * @param mtuSize               the mtu size
      * @param scanCallback          the scan callback
-     * @param leScanCallback        the le scan callback
      * @param bluetoothGattCallback the bluetooth gatt callback
      * @param callBack              the call back
      * @param lifecycleOwner        the lifecycle owner
      */
-    public BleClient(Context context, UUID serverId, UUID writeId, UUID readId, String serverName, int mtuSize, ScanCallback scanCallback, BluetoothAdapter.LeScanCallback leScanCallback, BluetoothGattCallback bluetoothGattCallback, StatueCallBack callBack, LifecycleOwner lifecycleOwner) {
+    public BleClient(Context context, UUID serverId, UUID writeId, UUID readId, String serverName, int mtuSize, ScanCallback scanCallback, BluetoothGattCallback bluetoothGattCallback, StatueCallBack callBack, LifecycleOwner lifecycleOwner) {
         super(context);
         this.context = context;
         this.serverId = serverId;
@@ -124,7 +118,6 @@ public class BleClient extends BaseBle {
         this.serverName = serverName;
         this.mtuSize = mtuSize;
         this.scanCallback = scanCallback;
-        this.leScanCallback = leScanCallback;
         this.bluetoothGattCallback = bluetoothGattCallback;
         this.callBack = callBack;
         if (lifecycleOwner != null) {
@@ -185,11 +178,6 @@ public class BleClient extends BaseBle {
          * The Scan callback.
          */
         private ScanCallback scanCallback;
-
-        /**
-         * The Le scan callback.
-         */
-        private BluetoothAdapter.LeScanCallback leScanCallback;
 
         /**
          * The Bluetooth gatt callback.
@@ -284,17 +272,6 @@ public class BleClient extends BaseBle {
         }
 
         /**
-         * Delay time location utils builder.
-         *
-         * @param leScanCallback the le scan callback
-         * @return the location utils builder
-         */
-        public ClientBuilder leScanCallback(BluetoothAdapter.LeScanCallback leScanCallback) {
-            this.leScanCallback = leScanCallback;
-            return this;
-        }
-
-        /**
          * Time out unit net utils . net utils builder.
          *
          * @param bluetoothGattCallback the bluetooth gatt callback
@@ -333,7 +310,7 @@ public class BleClient extends BaseBle {
          * @return the net utils
          */
         public BleClient build() {
-            return new BleClient(this.context, this.serverId, this.writeId, this.readId, this.serverName, this.mtuSize, this.scanCallback, this.leScanCallback, this.bluetoothGattCallback, this.callBack, this.lifecycle);
+            return new BleClient(this.context, this.serverId, this.writeId, this.readId, this.serverName, this.mtuSize, this.scanCallback, this.bluetoothGattCallback, this.callBack, this.lifecycle);
         }
     }
 
@@ -440,7 +417,7 @@ public class BleClient extends BaseBle {
      * Start scan.
      */
     public void startScan() {
-        if (scanCallback == null && leScanCallback == null && bluetoothGattCallback == null) {
+        if (scanCallback == null && bluetoothGattCallback == null) {
             if (callBack == null) {
                 throw new IllegalArgumentException("请传入StatueCallBack或自实现ScanCallback或LeScanCallback和BluetoothGattCallback");
             }
@@ -452,19 +429,12 @@ public class BleClient extends BaseBle {
         if (bluetoothAdapter == null) {
             bluetoothAdapter = getBluetoothManager().getAdapter();
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            scanner = bluetoothAdapter.getBluetoothLeScanner();
-            if (scanner != null) {
-                if (scanCallback == null) {
-                    initScanCallback();
-                }
-                scanner.startScan(scanCallback);
+        scanner = bluetoothAdapter.getBluetoothLeScanner();
+        if (scanner != null) {
+            if (scanCallback == null) {
+                initScanCallback();
             }
-        } else {
-            if (leScanCallback == null) {
-                initLeScanCallback();
-            }
-            bluetoothAdapter.startLeScan(leScanCallback);
+            scanner.startScan(scanCallback);
         }
     }
 
@@ -479,7 +449,6 @@ public class BleClient extends BaseBle {
         bluetoothAdapter = null;
         bluetoothGatt = null;
         scanCallback = null;
-        leScanCallback = null;
         bluetoothGattCallback = null;
     }
 
@@ -487,14 +456,10 @@ public class BleClient extends BaseBle {
      * Stop scan.
      */
     public void stopScan() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (bluetoothAdapter != null) {
             scanner = bluetoothAdapter.getBluetoothLeScanner();
             if (scanner != null && scanCallback != null) {
                 scanner.stopScan(scanCallback);
-            }
-        } else {
-            if (bluetoothAdapter != null && leScanCallback != null) {
-                bluetoothAdapter.stopLeScan(leScanCallback);
             }
         }
     }
@@ -516,19 +481,6 @@ public class BleClient extends BaseBle {
             characteristic.setWriteType(writeType);
             bluetoothGatt.writeCharacteristic(characteristic);
         }
-    }
-
-    /**
-     * Init le scan callback.
-     */
-    private void initLeScanCallback() {
-        leScanCallback = (device, rssi, scanRecord) -> {
-            String name = device.getName() == null ? "未知" : device.getName();
-            if (serverName.equals(name)) {
-                bluetoothGatt = device.connectGatt(context, false, bluetoothGattCallback);
-                bluetoothAdapter.stopLeScan(leScanCallback);
-            }
-        };
     }
 
     /**

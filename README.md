@@ -151,8 +151,6 @@ b、远程仓库引入
                 .mtuSize(int mtuSize)
                 //6.0以上扫描回调(不传有默认)
                 .scanCallback(ScanCallback scanCallback)
-                //6.0以下扫描回调(不传有默认)
-                .leScanCallback(BluetoothAdapter.LeScanCallback leScanCallback)
                 //客户端通道回调
                 .bluetoothGattCallback(BluetoothGattCallback bluetoothGattCallback)
                 //客户端状态回调
