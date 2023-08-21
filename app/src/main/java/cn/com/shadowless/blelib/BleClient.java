@@ -134,7 +134,6 @@ public class BleClient extends BaseBle {
 
     @Override
     protected void onDestroy() {
-        stopScan();
         stopConnect();
         Log.e(tag, "onStateChanged: BLE客户端已关闭");
     }
@@ -494,7 +493,9 @@ public class BleClient extends BaseBle {
                 scanner.stopScan(scanCallback);
             }
         } else {
-            bluetoothAdapter.stopLeScan(leScanCallback);
+            if (bluetoothAdapter != null) {
+                bluetoothAdapter.stopLeScan(leScanCallback);
+            }
         }
     }
 
