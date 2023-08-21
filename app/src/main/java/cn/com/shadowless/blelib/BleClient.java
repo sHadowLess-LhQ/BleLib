@@ -475,9 +475,7 @@ public class BleClient extends BaseBle {
         if (bluetoothGatt != null) {
             bluetoothGatt.disconnect();
         }
-        if (scanCallback != null | leScanCallback != null) {
-            stopScan();
-        }
+        stopScan();
         bluetoothAdapter = null;
         bluetoothGatt = null;
         scanCallback = null;
@@ -489,16 +487,13 @@ public class BleClient extends BaseBle {
      * Stop scan.
      */
     public void stopScan() {
-        if (scanCallback == null | leScanCallback == null) {
-            throw new IllegalStateException("请注册扫描回调后再停止");
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scanner = bluetoothAdapter.getBluetoothLeScanner();
-            if (scanner != null) {
+            if (scanner != null && scanCallback != null) {
                 scanner.stopScan(scanCallback);
             }
         } else {
-            if (bluetoothAdapter != null) {
+            if (bluetoothAdapter != null && leScanCallback != null) {
                 bluetoothAdapter.stopLeScan(leScanCallback);
             }
         }
