@@ -102,7 +102,7 @@ b、远程仓库引入
                     }
 
                     @Override
-                    public void getClientWriteData(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
+                    public void getClientWriteData(BluetoothGattServer gattServer, BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
                         Log.e("TAG", "接收客户端写入数据：" + device.getAddress() + "/" + "是否准备写入：" + preparedWrite + "/" + "是否需要响应：" + responseNeeded);
                     }
 
