@@ -2,6 +2,7 @@ package cn.com.shadowless.blelib;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattServer;
 import android.bluetooth.BluetoothGattServerCallback;
@@ -433,6 +434,7 @@ public class BleServer extends BaseBle {
         /**
          * Gets client write data.
          *
+         * @param gattServer     the gatt server
          * @param device         the device
          * @param requestId      the request id
          * @param characteristic the characteristic
@@ -441,7 +443,7 @@ public class BleServer extends BaseBle {
          * @param offset         the offset
          * @param value          the value
          */
-        void getClientWriteData(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value);
+        void getClientWriteData(BluetoothGattServer gattServer, BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value);
 
         /**
          * Gets client read data.
@@ -609,7 +611,7 @@ public class BleServer extends BaseBle {
             @Override
             public void onCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
                 super.onCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value);
-                callBack.getClientWriteData(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value);
+                callBack.getClientWriteData(bluetoothGattServer, device, requestId, characteristic, preparedWrite, responseNeeded, offset, value);
             }
 
             @Override
