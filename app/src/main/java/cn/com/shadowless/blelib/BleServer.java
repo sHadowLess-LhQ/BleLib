@@ -496,6 +496,15 @@ public class BleServer extends BaseBle {
      * Stop server.
      */
     public void stopServer() {
+        if (bluetoothLeAdvertiser == null) {
+            return;
+        }
+        if (advertiseCallback == null) {
+            return;
+        }
+        if (bluetoothGattServer == null) {
+            return;
+        }
         bluetoothLeAdvertiser.stopAdvertising(advertiseCallback);
         bluetoothGattServer.clearServices();
         for (BluetoothDevice device : getConnectedDevice()) {
