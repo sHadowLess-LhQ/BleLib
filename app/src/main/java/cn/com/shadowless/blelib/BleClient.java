@@ -444,6 +444,7 @@ public class BleClient extends BaseBle {
     public void stopConnect() {
         if (bluetoothGatt != null) {
             bluetoothGatt.disconnect();
+            bluetoothGatt.close();
         }
         stopScan();
         bluetoothAdapter = null;

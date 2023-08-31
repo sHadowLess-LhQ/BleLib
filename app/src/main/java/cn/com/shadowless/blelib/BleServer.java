@@ -496,21 +496,12 @@ public class BleServer extends BaseBle {
      * Stop server.
      */
     public void stopServer() {
-        if (bluetoothLeAdvertiser == null) {
-            return;
+        if (bluetoothLeAdvertiser != null && advertiseCallback != null) {
+            bluetoothLeAdvertiser.stopAdvertising(advertiseCallback);
         }
-        if (advertiseCallback == null) {
-            return;
+        if (bluetoothGattServer != null) {
+            bluetoothGattServer.close();
         }
-        if (bluetoothGattServer == null) {
-            return;
-        }
-        bluetoothLeAdvertiser.stopAdvertising(advertiseCallback);
-        bluetoothGattServer.clearServices();
-        for (BluetoothDevice device : getConnectedDevice()) {
-            bluetoothGattServer.cancelConnection(device);
-        }
-        bluetoothGattServer.close();
         bluetoothLeAdvertiser = null;
         advertiseCallback = null;
         bluetoothGattServer = null;
