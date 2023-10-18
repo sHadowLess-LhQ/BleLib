@@ -41,7 +41,7 @@ b、远程仓库引入
 
 ```
      dependencies {
-        implementation 'com.gitee.shadowless_lhq:base-view:Tag'
+        implementation 'com.gitee.shadowless_lhq:ble-lib:Tag'
      }
 ```
 
