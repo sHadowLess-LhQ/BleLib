@@ -37,11 +37,11 @@ a、克隆引入
 
 b、远程仓库引入
 
-[[![](https://jitpack.io/v/com.gitee.shadowless_lhq/ble-lib.svg)](https://jitpack.io/#com.gitee.shadowless_lhq/ble-lib)
+[![](https://jitpack.io/v/sHadowLess-LhQ/BleLib.svg)](https://jitpack.io/#sHadowLess-LhQ/BleLib)
 
 ```
      dependencies {
-        implementation 'com.gitee.shadowless_lhq:ble-lib:Tag'
+        implementation 'com.github.sHadowLess-LhQ:BleLib:Tag'
      }
 ```
 
